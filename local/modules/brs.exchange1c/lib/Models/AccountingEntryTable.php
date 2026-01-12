@@ -200,14 +200,21 @@
 				}
 			}
 
-			if($row['STATUS'] == 'CRITICAL' && $access){
-				$actions[] = [
-					'text' => 'Отправить повторно',
-					'onclick' => '(new BrsListControlAccountingEntry).push('.$row['ID'].');',
-				];
-			}
+		if($row['STATUS'] == 'CRITICAL' && $access){
+			$actions[] = [
+				'text' => 'Отправить повторно',
+				'onclick' => '(new BrsListControlAccountingEntry).push('.$row['ID'].');',
+			];
+		}
 
-			return $actions;
+		if($access && isset($row['ATTEMPTS']) && $row['ATTEMPTS'] > 0){
+			$actions[] = [
+				'text' => 'Сбросить попытки',
+				'onclick' => 'BX.Brs.Exchange1c.AccountingEntry.resetAttempts('.$row['ID'].');',
+			];
+		}
+
+		return $actions;
 
 		}
 

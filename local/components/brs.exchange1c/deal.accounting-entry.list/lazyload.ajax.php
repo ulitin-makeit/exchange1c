@@ -10,6 +10,36 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true || !check_bitrix_
 	die();
 }
 
+// Обработка действия сброса попыток
+$request = Bitrix\Main\Application::getInstance()->getContext()->getRequest();
+$action = $request->get('action');
+$entryId = (int)$request->get('entry_id');
+
+if($action === 'reset_attempts' && $entryId > 0){
+	\Bitrix\Main\Loader::includeModule('brs.exchange1c');
+	
+	$result = \Brs\Exchange1C\Models\AccountingEntryTable::update($entryId, [
+		'ATTEMPTS' => 0
+	]);
+	
+	if($result->isSuccess()){
+		$response = [
+			'status' => 'success',
+			'message' => 'Попытки успешно сброшены'
+		];
+	} else {
+		$response = [
+			'status' => 'error',
+			'message' => 'Ошибка при сбросе попыток: ' . implode(', ', $result->getErrorMessages())
+		];
+	}
+	
+	Header('Content-Type: application/json; charset='.LANG_CHARSET);
+	echo \Bitrix\Main\Web\Json::encode($response);
+	require_once($_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/epilog_after.php');
+	die();
+}
+
 Header('Content-Type: text/html; charset='.LANG_CHARSET);
 $GLOBALS['APPLICATION']->ShowAjaxHead();
 

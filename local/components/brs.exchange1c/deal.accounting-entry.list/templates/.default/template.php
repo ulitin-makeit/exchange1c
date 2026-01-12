@@ -10,6 +10,7 @@
 	global $APPLICATION;
 
 	$this->addExternalJs('/local/components/brs.listcontrol/listcontrol.detail/templates/default/js/AccountingEntry.js');
+	$this->addExternalJs($this->__folder . '/script.js');
 
 	$APPLICATION->IncludeComponent('bitrix:main.ui.grid', '', [
 		'GRID_ID' => $arResult['LIST_ID'],
