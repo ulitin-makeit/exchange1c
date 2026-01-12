@@ -38,9 +38,7 @@
 
 		Loader::includeModule('brs.exchange1c');
 
-		$result = \Brs\Exchange1C\Models\AccountingEntryTable::update($accountingEntryId, [
-			'ATTEMPTS' => 0
-		]);
+		$result = AccountingEntryService::resetAttempts($accountingEntryId);
 
 		if($result->isSuccess()){
 			return AjaxJson::createSuccess([

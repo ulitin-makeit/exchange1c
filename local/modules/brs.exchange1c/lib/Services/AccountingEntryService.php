@@ -102,6 +102,21 @@ class AccountingEntryService
 
 	}
 
+	/**
+	 * Сбрасывает количество попыток отправки проводки.
+	 * 
+	 * @param int $accountingEntryId
+	 * @return \Bitrix\Main\ORM\Data\Result
+	 */
+	public static function resetAttempts(int $accountingEntryId): \Bitrix\Main\ORM\Data\Result {
+
+		return AccountingEntryTable::update($accountingEntryId, [
+			'ATTEMPTS' => 0,
+			'STATUS' => AccountingEntryTable::STATUS_WAIT
+		]);
+
+	}
+
 	protected static function send(array $entries, bool $checkSettings = true)
 	{
 		$settings = $checkSettings ? AccountingEntrySettings::getEntities() : [];
