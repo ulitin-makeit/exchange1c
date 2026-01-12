@@ -210,7 +210,7 @@
 		if($access){
 			$actions[] = [
 				'text' => 'Сбросить попытки',
-				'onclick' => 'BX.Brs.Exchange1c.AccountingEntry.resetAttempts('.$row['ID'].');',
+				'onclick' => '(new BrsListControlAccountingEntry).resetAttempts('.$row['ID'].');',
 			];
 		}
 
