@@ -207,7 +207,7 @@
 			];
 		}
 
-		if($access && isset($row['ATTEMPTS']) && $row['ATTEMPTS'] > 0){
+		if($access){
 			$actions[] = [
 				'text' => 'Сбросить попытки',
 				'onclick' => 'BX.Brs.Exchange1c.AccountingEntry.resetAttempts('.$row['ID'].');',
