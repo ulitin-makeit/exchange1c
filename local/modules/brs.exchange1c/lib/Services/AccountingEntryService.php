@@ -26,6 +26,7 @@ class AccountingEntryService
 		AccountingEntry\RefundRealization::ENTITY,
 		AccountingEntry\RefundIncome::ENTITY,
 		AccountingEntry\PointRefund::ENTITY,
+		AccountingEntry\CancelRefund::ENTITY,
 	];
 
 	public static function sendEntries(array $ids = [], bool $checkSettings = true)
