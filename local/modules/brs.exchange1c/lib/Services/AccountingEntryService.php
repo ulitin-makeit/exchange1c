@@ -69,7 +69,7 @@ class AccountingEntryService
 
 	/**
 	 * Пытается заново отправить проводку.
-	 * 
+	 *
 	 * @param int $accountingEntryId
 	 * @return void
 	 */
@@ -104,7 +104,7 @@ class AccountingEntryService
 
 	/**
 	 * Сбрасывает количество попыток отправки проводки.
-	 * 
+	 *
 	 * @param int $accountingEntryId
 	 * @return \Bitrix\Main\ORM\Data\Result
 	 */

@@ -11,10 +11,10 @@ use CCrmDeal;
  * Агент для формирования рассылки при наличии ошибок в отправке проводок.
  */
 class ErrorNotification {
-	
+
 	/**
 	 * Запускаем агент проверки ошибок в проводках.
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function run(): string {
@@ -33,22 +33,23 @@ class ErrorNotification {
 		$message = self::buildMessage($groupedErrors); // формируем тело письма
 
 		// отправляем письмо на почту
-		\CEvent::SendImmediate('BRS_EXCHANGE1C_ERROR_NOTIFICATION', 's1', [
-			'MESSAGE' => $message
-		], 'N');
+//		\CEvent::SendImmediate('BRS_EXCHANGE1C_ERROR_NOTIFICATION', 's1', [
+//			'MESSAGE' => $message
+//		], 'N');
 
+		echo $message;
 		return __METHOD__ . '();';
 	}
 
 	/**
 	 * Получаем ошибки проводок за последние 24 часа.
-	 * 
+	 *
 	 * @return array
 	 */
 	protected static function getErrorsForLast24Hours(): array {
 
 		$dateFrom = new DateTime();
-		$dateFrom->add('-1 day');
+		$dateFrom->add('-30 day');
 
 		$entries = AccountingEntryTable::getList([
 			'filter' => [
@@ -76,7 +77,7 @@ class ErrorNotification {
 
 	/**
 	 * Группируем ошибки по сделкам.
-	 * 
+	 *
 	 * @param array $errors
 	 * @return array
 	 */
@@ -86,7 +87,7 @@ class ErrorNotification {
 
 		foreach($errors as $error){
 			$dealId = $error['DEAL_ID'];
-			
+
 			if(!isset($grouped[$dealId])){
 				$grouped[$dealId] = [
 					'deal_id' => $dealId,
@@ -103,7 +104,7 @@ class ErrorNotification {
 
 	/**
 	 * Получаем название сделки по ID.
-	 * 
+	 *
 	 * @param int $dealId
 	 * @return string
 	 */
@@ -120,14 +121,13 @@ class ErrorNotification {
 
 	/**
 	 * Формируем HTML сообщение с таблицей ошибок.
-	 * 
+	 *
 	 * @param array $groupedErrors
 	 * @return string
 	 */
 	protected static function buildMessage(array $groupedErrors): string {
 
-		$message = 'Добрый день!<br><br>';
-		$message .= 'Обнаружены ошибки в отправке проводок за последние 24 часа.<br><br>';
+		$message = 'Обнаружены ошибки в отправке проводок за последние 24 часа.<br><br>';
 
 		$message .= '<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width: 100%;">';
 		$message .= '<thead>';
@@ -192,13 +192,13 @@ class ErrorNotification {
 				$message .= '<td>' . $errorDescription . '</td>';
 
 				// Время создания
-				$dateCreate = $entry['DATE_CREATE'] instanceof DateTime 
+				$dateCreate = $entry['DATE_CREATE'] instanceof DateTime
 					? $entry['DATE_CREATE']->format('d.m.Y H:i')
 					: (new DateTime($entry['DATE_CREATE']))->format('d.m.Y H:i');
 				$message .= '<td style="text-align: center;">' . $dateCreate . '</td>';
 
 				// Время обновления
-				$dateUpdate = $entry['DATE_UPDATE'] instanceof DateTime 
+				$dateUpdate = $entry['DATE_UPDATE'] instanceof DateTime
 					? $entry['DATE_UPDATE']->format('d.m.Y H:i')
 					: (new DateTime($entry['DATE_UPDATE']))->format('d.m.Y H:i');
 				$message .= '<td style="text-align: center;">' . $dateUpdate . '</td>';

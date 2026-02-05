@@ -1,18 +1,18 @@
 <?php
 
-	namespace Brs\Exchange1c\Controller;
+namespace Brs\Exchange1c\Controller;
 
-	use Bitrix\Main\Engine\Controller;
-	use Bitrix\Main\Engine\Response\AjaxJson;
-	use Bitrix\Main\Loader;
+use Bitrix\Main\Engine\Controller;
+use Bitrix\Main\Engine\Response\AjaxJson;
+use Bitrix\Main\Loader;
 
-	use Brs\Exchange1c\Services\AccountingEntryService;
+use Brs\Exchange1c\Services\AccountingEntryService;
 
-	class AccountingEntryController extends Controller {
+class AccountingEntryController extends Controller {
 
 	/**
 	 * Отправляет проводку повторно.
-	 * 
+	 *
 	 * @param int $accountingEntryId
 	 * @return AjaxJson
 	 */
@@ -30,7 +30,7 @@
 
 	/**
 	 * Сбрасывает количество попыток отправки.
-	 * 
+	 *
 	 * @param int $accountingEntryId
 	 * @return AjaxJson
 	 */
@@ -51,5 +51,5 @@
 		}
 
 	}
-	
+
 }
